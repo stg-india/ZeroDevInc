@@ -681,6 +681,7 @@ def delete_session(request, session_id):
 
 def admin_view_history(request):
     context={
+       "page_title":"Audit History",
         
     }
     return render(request,"hod_template/admin_view_history.html",context)
