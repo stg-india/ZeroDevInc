@@ -1,0 +1,57 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{ page_title }}{% endblock page_title %}
+
+{% block content %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{ page_title }}</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="auditTable" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>1. Audit ID</th>
+                                    <th>2. Created At (Date time field)</th>
+                                    <th>3. Date</th>
+                                    <th>4. Modifier</th>
+                                    <th>5. Table name</th>
+                                    <th>6. Prev_Val</th>
+                                    <th>7. Changed Val</th>
+                                    <th>8. Col Owner</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for audit_entry in audit_history %}
+                                <tr>
+                                    <td>{{ audit_entry.audit_id }}</td>
+                                    <td>{{ audit_entry.created_at }}</td>
+                                    <td>{{ audit_entry.date }}</td>
+                                    <td>{{ audit_entry.modifier }}</td>
+                                    <td>{{ audit_entry.table_name }}</td>
+                                    <td>{{ audit_entry.prev_val }}</td>
+                                    <td>{{ audit_entry.changed_val }}</td>
+                                    <td>{{ audit_entry.col_owner }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+{% block custom_js %}
+  <script>
+    // JavaScript code for your page
+  </script>
+{% endblock custom_js %}

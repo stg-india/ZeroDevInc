@@ -678,3 +678,9 @@ def delete_session(request, session_id):
         messages.error(
             request, "There are students assigned to this session. Please move them to another session.")
     return redirect(reverse('manage_session'))
+
+def admin_view_history(request):
+    context={
+        
+    }
+    return render(request,"hod_template/admin_view_history.html",context)

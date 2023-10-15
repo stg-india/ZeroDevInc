@@ -35,6 +35,8 @@ urlpatterns = [
     path("add_session/", hod_views.add_session, name='add_session'),
     path("admin_notify_student", hod_views.admin_notify_student,
          name='admin_notify_student'),
+    path("admin_view_history/", hod_views.admin_view_history, name="admin_view_history"),
+#     created audit history above
     path("admin_notify_staff", hod_views.admin_notify_staff,
          name='admin_notify_staff'),
     path("admin_view_profile", hod_views.admin_view_profile,

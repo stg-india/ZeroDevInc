@@ -35,6 +35,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    {% comment %} http://127.0.0.1:8000/admin_view_history/ {% endcomment %}
+                    {% url 'admin_view_history' as admin_view_history %}
+                    <a href="{{admin_view_history}}" class="nav-link {% if admin_view_history == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-th"></i>
+                        {% comment %} <i class="fa-solid fa-rocket-launch"></i> {% endcomment %}
+
+
+                        <p>
+                            View History
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     {% url 'admin_view_profile' as admin_view_profile %}
                     <a href="{{admin_view_profile}}" class="nav-link {% if admin_view_profile == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
