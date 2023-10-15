@@ -14,34 +14,36 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="auditTable" class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Timwstamp</th>
-                                    <th>Date</th>
-                                    <th>Author</th>
-                                    <th>Table</th>
-                                    <th>Prev</th>
-                                    <th>Curr</th>
-                                    <th>Owner</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for audit_entry in audit_log %}
-                                <tr>
-                                    <td>{{ audit_entry.object_id }}</td>
-                                    <td>{{ audit_entry.object_repr }}</td>
-                                    <td>{{ audit_entry.action }}</td>
-                                    <td>{{ audit_entry.changes }}</td>
-                                    <td>{{ audit_entry.actor_id }}</td>
-                                    <td>{{ audit_entry.content_type_id }}</td>
-                                    <td>{{ audit_entry.remote_addr }}</td>
-                                    <td>{{ audit_entry.timestamp }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                        <div class="table-responsive"> <!-- Add this container for x-scrolling -->
+                            <table id="auditTable" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Timwstamp</th>
+                                        <th>Date</th>
+                                        <th>Author</th>
+                                        <th>Table</th>
+                                        <th>Prev</th>
+                                        <th>Curr</th>
+                                        <th>Owner</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for audit_entry in audit_log %}
+                                    <tr>
+                                        <td style="white-space: nowrap;">{{ audit_entry.object_id }}</td>
+                                        <td style="white-space: nowrap;">{{ audit_entry.object_repr }}</td>
+                                        <td style="white-space: nowrap;">{{ audit_entry.action }}</td>
+                                        <td style="white-space: nowrap;">{{ audit_entry.changes }}</td>
+                                        <td style="white-space: nowrap;">{{ audit_entry.actor_id }}</td>
+                                        <td style="white-space: nowrap;">{{ audit_entry.content_type_id }}</td>
+                                        <td style="white-space: nowrap;">{{ audit_entry.remote_addr }}</td>
+                                        <td style="white-space: nowrap;">{{ audit_entry.timestamp }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
