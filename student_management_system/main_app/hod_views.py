@@ -9,6 +9,9 @@ from django.templatetags.static import static
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import UpdateView
+from auditlog.models import LogEntry
+from auditlog.admin import *
+import debugprint as debugger2
 
 from .forms import *
 from .models import *
@@ -680,7 +683,19 @@ def delete_session(request, session_id):
     return redirect(reverse('manage_session'))
 
 def admin_view_history(request):
-    context={
+    data2 =[]
+    data = LogEntry.objects.all()
+    for d in data:
+        cache = {"object_id":d.object_id, "object_repr":d.object_repr, "action":d.action, "changes":d.changes,"actor_id":d.actor,"content_type_id":d.content_type,"remote_addr":d.remote_addr,"timestamp":d.timestamp}
+        data2.append(cache)
+
+    print(data2)    
+        
+    
+    #debugger2.debugprint(data)
+    # for d in data:
+    #     print(d ,end= ", \n \*")
+    context={"audit_log":data2,
        "page_title":"Audit History",
         
     }
