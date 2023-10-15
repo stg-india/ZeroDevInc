@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # My Apps
-    'main_app.apps.MainAppConfig'
+    'main_app.apps.MainAppConfig',
+    'auditlog'
 ]
 
 MIDDLEWARE = [
@@ -55,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'auditlog.middleware.AuditlogMiddleware',
 
     # Third Part Middleware
     'whitenoise.middleware.WhiteNoiseMiddleware',

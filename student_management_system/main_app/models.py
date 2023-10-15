@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from auditlog.registry import auditlog
 
 
 
@@ -194,3 +194,21 @@ def save_user_profile(sender, instance, **kwargs):
         instance.staff.save()
     if instance.user_type == 3:
         instance.student.save()
+
+
+auditlog.register(Session)
+
+auditlog.register(Admin)
+auditlog.register(Course)
+auditlog.register(Student)
+auditlog.register(Staff)
+auditlog.register(Subject)
+auditlog.register(Attendance)
+auditlog.register(AttendanceReport)
+auditlog.register(LeaveReportStudent)
+auditlog.register(LeaveReportStaff)
+auditlog.register(FeedbackStaff)
+auditlog.register(FeedbackStudent)
+auditlog.register(NotificationStaff)
+auditlog.register(NotificationStudent)
+auditlog.register(StudentResult)
