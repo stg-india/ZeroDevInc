@@ -14,7 +14,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="table-responsive"> <!-- Add this container for x-scrolling -->
+                        <div class="table-responsive">
                             <table id="auditTable" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -34,7 +34,7 @@
                                         <td style="white-space: nowrap;">{{ audit_entry.object_id }}</td>
                                         <td style="white-space: nowrap;">{{ audit_entry.object_repr }}</td>
                                         <td style="white-space: nowrap;">{{ audit_entry.action }}</td>
-                                        <td style="white-space: nowrap;">{{ audit_entry.changes }}</td>
+                                        <td class="changes-cell" style="white-space: nowrap;">{{ audit_entry.changes|safe }}</td>
                                         <td style="white-space: nowrap;">{{ audit_entry.actor_id }}</td>
                                         <td style="white-space: nowrap;">{{ audit_entry.content_type_id }}</td>
                                         <td style="white-space: nowrap;">{{ audit_entry.remote_addr }}</td>
@@ -54,6 +54,28 @@
 {% endblock content %}
 {% block custom_js %}
   <script>
-    // JavaScript code for your page
+    document.addEventListener('DOMContentLoaded', function() {
+        var changesCells = document.querySelectorAll('.changes-cell');
+
+        changesCells.forEach(function(cell) {
+            var changesData = JSON.parse(cell.textContent);
+
+            var subTable = '<table class="sub-table">';
+            subTable += '<thead><tr><th>entity_changed</th><th>before</th><th>after</th></tr></thead>';
+            subTable += '<tbody>';
+
+            for (var key in changesData) {
+                subTable += '<tr>';
+                subTable += '<td>' + key + '</td>';
+                subTable += '<td>' + changesData[key][0] + '</td>';
+                subTable += '<td>' + changesData[key][1] + '</td>';
+                subTable += '</tr>';
+            }
+
+            subTable += '</tbody></table>';
+
+            cell.innerHTML = subTable;
+        });
+    });
   </script>
 {% endblock custom_js %}
