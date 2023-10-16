@@ -9,8 +9,10 @@ from django.templatetags.static import static
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import UpdateView
-from auditlog.models import LogEntry
+from auditlog.models import LogEntry, AuditlogHistoryField
+from django.contrib.contenttypes.models import ContentType
 from auditlog.admin import *
+from django.apps import apps
 import debugprint as debugger2
 
 from .forms import *
@@ -682,14 +684,158 @@ def delete_session(request, session_id):
             request, "There are students assigned to this session. Please move them to another session.")
     return redirect(reverse('manage_session'))
 
+def onrevertbuttonpressed(request):
+    if request.method == 'POST':
+        try:
+            # Get the raw request body
+            raw_body = request.body.decode('utf-8')
+            
+            # Parse the JSON data
+            json_data = json.loads(raw_body)
+            
+            content_type_id = json_data.get('content_type_id')
+            object_id = json_data.get("object_id")
+            log_entries = LogEntry.objects.filter(content_type_id=content_type_id, object_id=object_id)
+            final_log = []
+            for log in log_entries:
+                final_log.append({"change":log.changes, "content_type_id":log.content_type, "object_id":log.object_id})
+
+            
+            # Example: Return a JSON response
+            response_data = {'message': 'Received and processed JSON data'}
+            return JsonResponse(final_log)
+            
+        except json.JSONDecodeError as e:
+            # Handle JSON decoding error
+            response_data = {'error': 'Invalid JSON data'}
+            return JsonResponse(response_data, status=400)
+            
+    else:
+        response_data = {'error': 'Invalid request method'}
+        return JsonResponse(response_data, status=405)
+
+
+
+
+
+
+
+def commit_revert(request):
+    if request.method == 'POST':
+        try:
+            # Get the raw request body
+            raw_body = request.body.decode('utf-8')
+            
+            # Parse the JSON data
+            json_data = json.loads(raw_body)
+            
+            
+            index = json_data.get('index')
+            content_type_id = json_data.get('content_type_id')
+            object_id = json_data.get("object_id")
+            log_entries = LogEntry.objects.filter(content_type_id=content_type_id, object_id=object_id)
+            print(log_entries[0].changes)
+            # required_log=log_entries[index]
+            # requires_change=required_log.changes[0]
+
+            content_type = ContentType.objects.get_for_id(id=content_type_id)
+            model_class = content_type.model_class()
+            original_objects = model_class.objects.filter(id=object_id)
+
+
+            # Example: Return a JSON response
+            response_data = {'message': 'Received and processed JSON data'}
+            return JsonResponse(response_data)
+            
+        except json.JSONDecodeError as e:
+            # Handle JSON decoding error
+            response_data = {'error': 'Invalid JSON data'}
+            return JsonResponse(response_data, status=400)
+            
+    else:
+        response_data = {'error': 'Invalid request method'}
+        return JsonResponse(response_data, status=405)
+
+
+
+
+
+
+
+
+
+
 def admin_view_history(request):
+    
+
+    content_type = ContentType.objects.get_for_id(id=10)
+    model_class = content_type.model_class()
+    original_objects = model_class.objects.filter(id=1)
+    obj2 = original_objects[0]
+    # obj2.save()
+    # print(original_objects[0].change)
+    # log_entries = LogEntry.objects.filter(content_type_id=10, object_id=1)
+    # print(log_entries)
+
+# Start with the current model
+
+# Get the foreign key fields for the current model
+
+    # obj1 = model_class.objects.get(id=1)
+    
+    # print(obj1, obj1.last_name)
+
+    # #obj1 = original_objects[0]
+    # obj1.last_name = "Chandra"
+    # obj1.email = "c@chandra.com"
+    # obj1.save()
+
+    # print("obj1 saved", obj1.last_name)
+    # obj1.refresh_from_db()
+    # print(obj1.last_name)
+    # log_entries = LogEntry.objects.filter(content_type_id=10, object_id=1)
+    # print(log_entries[::-1])
+    # print((log_entries[0].changes))
+
+
+    # User = apps.get_model('student_management_system', 'Staff')
+    
+    # Get the user to copy
+    # original_user = User.objects.get(pk=user_id)
+
+    # Create a copy of the user
+  
+
+    # If there are foreign key relationships, you may need to copy them as well
+    # For example, if User has a foreign key to Profile
+ 
+
+    # If there are many-to-many relationships, you may need to copy them as well
+    # For example, if User has a many-to-many relationship with Group
+
+
+
+
+
+
+
     data2 =[]
     data = LogEntry.objects.all()
+    i=0
     for d in data:
-        cache = {"object_id":d.object_id, "object_repr":d.object_repr, "action":d.action, "changes":d.changes,"actor_id":d.actor,"content_type_id":d.content_type,"remote_addr":d.remote_addr,"timestamp":d.timestamp}
+
+        
+        cache = {"object_id":d.object_id, "object_repr":d.object_repr, "action":d.action, "changes":d.changes,"actor_id":d.actor,"content_type_id":d.content_type_id,"remote_addr":d.remote_addr,"timestamp":d.timestamp}
         data2.append(cache)
 
-    print(data2)    
+    # print(data2)  
+#     audit_log_entry = AuditlogHistory.objects.get(pk=1)
+
+# # Revert the model instance to the state recorded in the audit log entry
+#     reverted_instance = audit_log_entry.undo()
+
+#     # Save the reverted instance
+#     reverted_instance.save()  
         
     
     #debugger2.debugprint(data)

@@ -1,0 +1,30 @@
+import json
+from django.http import JsonResponse
+
+def your_view(request):
+    if request.method == 'POST':
+        try:
+            # Get the raw request body
+            raw_body = request.body.decode('utf-8')
+            
+            # Parse the JSON data
+            json_data = json.loads(raw_body)
+            
+            # Now 'json_data' contains the decoded JSON data
+            # You can use it like a Python dictionary
+
+            # Example: Access a field
+            field_value = json_data.get('field_name')
+            
+            # Example: Return a JSON response
+            response_data = {'message': 'Received and processed JSON data'}
+            return JsonResponse(response_data)
+            
+        except json.JSONDecodeError as e:
+            # Handle JSON decoding error
+            response_data = {'error': 'Invalid JSON data'}
+            return JsonResponse(response_data, status=400)
+            
+    else:
+        response_data = {'error': 'Invalid request method'}
+        return JsonResponse(response_data, status=405)
