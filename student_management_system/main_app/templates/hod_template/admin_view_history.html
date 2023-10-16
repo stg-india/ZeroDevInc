@@ -26,6 +26,8 @@
                                         <th>content_type_id</th>
                                         <th>remote_addr</th>
                                         <th>timestamp</th>
+                                        <!-- New Column for the button -->
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,6 +41,17 @@
                                         <td style="white-space: nowrap;">{{ audit_entry.content_type_id }}</td>
                                         <td style="white-space: nowrap;">{{ audit_entry.remote_addr }}</td>
                                         <td style="white-space: nowrap;">{{ audit_entry.timestamp }}</td>
+                                        <!-- New Column for the button with "Revert" text -->
+                                        <td>
+                                            <button class="btn btn-primary"
+                                                    data-text="{{ audit_entry.object_repr }}"
+                                                    data-index="{{ forloop.counter }}"
+                                                    data-toggle="modal"
+                                                    data-target="#revertModal"
+                                                    onclick="handleButtonClick(this)">
+                                                Revert
+                                            </button>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -51,7 +64,147 @@
     </div>
 </section>
 
+<!-- Modal for Revert -->
+<div class="modal fade" id="revertModal" tabindex="-1" role="dialog" aria-labelledby="revertModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="revertModalLabel">Revert Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Content of the modal -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Object Reference</th>
+                                <th>Before</th>
+                                <th>After</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Object Reference 1</td>
+                                <td>Before Data 1</td>
+                                <td>After Data 1</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="revertData(1)">Revert</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Object Reference 2</td>
+                                <td>Before Data 2</td>
+                                <td>After Data 2</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="revertData(2)">Revert</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Object Reference 2</td>
+                                <td>Before Data 2</td>
+                                <td>After Data 2</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="revertData(2)">Revert</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Object Reference 2</td>
+                                <td>Before Data 2</td>
+                                <td>After Data 2</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="revertData(2)">Revert</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Object Reference 2</td>
+                                <td>Before Data 2</td>
+                                <td>After Data 2</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="revertData(2)">Revert</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Object Reference 2</td>
+                                <td>Before Data 2</td>
+                                <td>After Data 2</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="revertData(2)">Revert</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Object Reference 2</td>
+                                <td>Before Data 2</td>
+                                <td>After Data 2</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="revertData(2)">Revert</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Object Reference 2</td>
+                                <td>Before Data 2</td>
+                                <td>After Data 2</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="revertData(2)">Revert</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Object Reference 2</td>
+                                <td>Before Data 2</td>
+                                <td>After Data 2</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="revertData(2)">Revert</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Object Reference 2</td>
+                                <td>Before Data 2</td>
+                                <td>After Data 2</td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="revertData(2)">Revert</button>
+                                </td>
+                            </tr>
+                            
+                            <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function revertData(id) {
+        // Implement your data-reverting logic here for the specified id
+        // You can perform actions based on the id (e.g., revert corresponding data)
+        console.log('Reverting data for ID: ' + id);
+
+        // Close the modal after reverting data (if needed)
+        $('#revertModal').modal('hide');
+    }
+</script>
+
+
 {% endblock content %}
+
 {% block custom_js %}
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -77,5 +230,22 @@
             cell.innerHTML = subTable;
         });
     });
+
+    function handleButtonClick(button) {
+        // Retrieve data-text and data-index attributes from the button
+        var text = button.getAttribute('data-text');
+        var index = button.getAttribute('data-index');
+
+        // Set the text in the modal
+        document.getElementById('revertData').textContent = text;
+    }
+
+    function revertData() {
+        // Implement your data-reverting logic here
+        // You can use the data-text and data-index attributes as needed
+        // For example, make an AJAX request to revert the data on the server.
+        // After completing the revert, you can close the modal using:
+        // $('#revertModal').modal('hide');
+    }
   </script>
 {% endblock custom_js %}
